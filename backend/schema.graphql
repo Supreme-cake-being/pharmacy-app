@@ -1,0 +1,27 @@
+type Query {
+    user: User!
+}
+
+type Mutation {
+
+}
+
+type User {
+    id: ID!
+    fullname: String!
+    email: String!
+    age: Int!
+    Appointments: [Appointment!]!
+    Doctors: [Dcotor]!
+    Plan: Plans!
+}
+
+type Appoinment {
+    id: ID!
+    Doctor: 
+}
+
+enum Plans {
+    PLAN_FREE
+    PLAN_
+}
