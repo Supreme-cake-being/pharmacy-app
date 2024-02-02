@@ -1,27 +1,42 @@
 type Query {
     user: User!
+    appointments(userId: String!): [Appointment!]!
+    appointmentById(appointmentId: String!): Appointment!
 }
 
 type Mutation {
-
+    
 }
 
 type User {
-    id: ID!
+    id: String!
     fullname: String!
     email: String!
     age: Int!
+    phone: String!
+    verified: Boolean!
+    verificationCode: String!
+    token: String!
     Appointments: [Appointment!]!
-    Doctors: [Dcotor]!
+    Doctors: [Doctor]!
     Plan: Plans!
 }
 
-type Appoinment {
-    id: ID!
-    Doctor: 
+type Doctor {
+    id: String!
+    fullname: String!
+    email: String!
+    phone: String!
+    Appointments: [Appointment!]!
+}
+
+type Appointment {
+    id: String!
+    Doctor: Doctor!
 }
 
 enum Plans {
     PLAN_FREE
-    PLAN_
+    PLAN_FAMILY_INSURANCE
+    PLAN_LIFE_INSURANCE
 }
