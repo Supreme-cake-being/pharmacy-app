@@ -35,6 +35,10 @@ type Appointment {
     Doctor: Doctor!
 }
 
+type Product {
+    id: String!
+}
+
 enum Plans {
     PLAN_FREE
     PLAN_FAMILY_INSURANCE
