@@ -15,8 +15,8 @@ type Query {
 }
 
 type User {
-    id: String!
-    fullname: String!
+    _id: String!
+    fullName: String!
     email: String!
     age: Int!
     phone: String!
@@ -30,8 +30,8 @@ type User {
 }
 
 type Doctor {
-    id: String!
-    fullname: String!
+    _id: String!
+    fullName: String!
     email: String!
     phone: String!
     rating: Float!
@@ -40,20 +40,20 @@ type Doctor {
 }
 
 type Appointment {
-    id: String!
+    _id: String!
     User: User!
     Doctor: Doctor!
 }
 
 type Pharmacy {
-    id: String!
+    _id: String!
     name: String!
     geos: String!
     Products: [Product!]!
 }
 
 type Product {
-    id: String!
+    _id: String!
     name: String!
     price: Float!
     type: MedicineType!
@@ -62,12 +62,12 @@ type Product {
 }
 
 type Category {
-    id: String!
+    _id: String!
     name: String!
 }
 
 # type Comment {
-#     id: String!
+#     _id: String!
 #     title: String!
 #     body: String!
 #     User: User!
