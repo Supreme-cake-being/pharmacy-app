@@ -1,23 +1,79 @@
 import { Schema, model } from 'mongoose';
+import Joi from 'joi';
+import { roles } from '../constants/roles.js';
+import { plans } from '../constants/plans.js';
 
-const roles = ['ROLE_USER', 'ROLE_DOCTOR'];
+const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const passwordRegex = /^(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,64}$/;
 
 const userSchema = new Schema(
   {
+    fullName: {
+      type: String,
+      required: [true, 'Email is required'],
+    },
     email: {
       type: String,
       required: [true, 'Email is required'],
       unique: true,
+    },
+    password: {
+      type: String,
+      required: [true, 'Password is required'],
+    },
+    age: {
+      type: Number,
+      required: [true, 'Age is required'],
+    },
+    phone: {
+      type: String,
+      required: [true, 'Phone number is required'],
     },
     role: {
       type: String,
       enum: roles,
       default: 'ROLE_USER',
     },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      default: '',
+    },
+    token: String,
+    Appointments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'appointment',
+        required: true,
+      },
+    ],
+    Doctors: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'doctor',
+        required: true,
+      },
+    ],
+    Plan: {
+      type: String,
+      enum: plans,
+      default: 'ROLE_USER',
+    },
   },
-  { versionKey: false, timestamps: true }
+  {
+    versionKey: false,
+    timestamps: false,
+  }
 );
 
 const User = model('user', userSchema);
 
-export { User };
+const userAuthSchema = Joi.object({
+  email: Joi.string().pattern(emailRegex).required(),
+  password: Joi.string().pattern(passwordRegex).required(),
+});
+
+export { User, userAuthSchema };
