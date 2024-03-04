@@ -41,6 +41,7 @@ type Doctor {
 
 type Appointment {
     _id: String!
+    time: String!
     User: User!
     Doctor: Doctor!
 }
