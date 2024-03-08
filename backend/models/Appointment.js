@@ -14,7 +14,7 @@ const appointmentSchema = new Schema(
     },
     Doctor: {
       type: Schema.Types.ObjectId,
-      ref: 'user',
+      ref: 'doctor',
       required: true,
     },
   },
