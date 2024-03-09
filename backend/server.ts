@@ -4,7 +4,7 @@ import app from './app.js';
 const { DB_HOST, PORT = 3000 } = process.env;
 
 mongoose
-  .connect(DB_HOST)
+  .connect(DB_HOST as string)
   .then(() => {
     app.listen(PORT, () => {
       console.log(

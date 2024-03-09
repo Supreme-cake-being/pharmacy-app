@@ -1,6 +1,6 @@
 const typeDefs = `#graphql
 type Query {
-    user: User!
+    me: User!
     users: [User!]!
     doctors(userId: String): [Doctor!]!
     doctorById(doctorId: String!): Doctor!
