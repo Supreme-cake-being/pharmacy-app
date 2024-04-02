@@ -1,7 +1,14 @@
 import { rule, and, or, not } from 'graphql-shield';
+import HttpError from '../helpers/HttpError';
 
 export const isAuthenticated = rule({ cache: 'contextual' })(
-  async (parent, args, { user }, info) => user !== null
+  async (parent, args, { user }, info) => {
+    if (!user) {
+      throw HttpError(401, 'Not authorized');
+    }
+
+    return user;
+  }
 );
 
 export const isDoctor = rule({ cache: 'contextual' })(
@@ -15,14 +22,11 @@ export const isUser = rule({ cache: 'contextual' })(
 const permissions = shield({
   Query: {
     // '*': isAuthenticated,
+    me: isAuthenticated,
     users: isDoctor,
-    doctors: isUser,
-    doctorById: isUser,
   },
   Mutation: {
     '*': isAuthenticated,
-    updateProfile: isUser,
-    createUser: isAdmin,
   },
 });
 

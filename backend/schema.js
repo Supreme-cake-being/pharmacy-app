@@ -1,7 +1,9 @@
 const typeDefs = `#graphql
+directive @auth on FIELD_DEFINITION
+
 type Query {
     me: User!
-    users: [User!]!
+    users: [User!]! @auth
     doctors(userId: String): [Doctor!]!
     doctorById(doctorId: String!): Doctor!
     appointments(userId: String!): [Appointment!]!
