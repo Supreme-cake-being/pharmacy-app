@@ -1,11 +1,23 @@
 {
   "compilerOptions": {
-    "module": "es6",
-    "target": "es5",
+    "baseUrl": ".",
+    "paths": {
+      "@constants/*": ["constants/*"],
+      "@helpers/*": ["helpers/*"],
+      "@models/*": ["models/*"],
+      "@permissions*": ["permissions/*"]
+    },
+    "target": "es6",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
     "moduleResolution": "node",
-    "esModuleInterop": true
-  },
-  "ts-node": {
-    "esm": true
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": true,
+    "forceConsistentCasingInFileNames": true
   }
+  // "include": ["next-env.d.ts", "/*.ts", "/*.tsx", "styled.d.ts"],
 }

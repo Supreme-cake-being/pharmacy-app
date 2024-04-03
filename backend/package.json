@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=production ts-node --esm ./server.ts",
-    "dev": "cross-env NODE_ENV=development nodemon ./server.ts"
+    "start": "cross-env NODE_ENV=production ts-node ./server.ts",
+    "dev": "cross-env NODE_ENV=development nodemon ts-node ./server.ts"
   },
   "author": "",
   "license": "ISC",
