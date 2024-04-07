@@ -7,7 +7,7 @@ import typeDefs from './schema.js';
 import resolvers from './resolvers.js';
 import { context } from './context.js';
 import { applyMiddleware } from 'graphql-middleware';
-import permissions from './permissions/rules.js';
+import permissions from '@permissions/rules.js';
 
 const app = express();
 
