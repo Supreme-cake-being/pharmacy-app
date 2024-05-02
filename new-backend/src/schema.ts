@@ -1,0 +1,98 @@
+const typeDefs = `#graphql
+type Query {
+    me: User!
+    users: [User!]! 
+    doctors(userId: String): [Doctor!]!
+    doctorById(doctorId: String!): Doctor!
+    appointments(userId: String!): [Appointment!]!
+    appointmentById(appointmentId: String!): Appointment!
+    pharmacies: [Pharmacy!]!
+    pharmacyById(pharmacyId: String!): Pharmacy!
+    products(pharmacyId: String, categoryId: String): [Product!]!
+    productById(productId: String!): Product!
+    productsInCart(userId: String!): [Product!]!
+    categories: [Category!]!
+}
+
+type User {
+    _id: String!
+    fullName: String!
+    email: String!
+    age: Int!
+    phone: String!
+    role: Roles!
+    verified: Boolean!
+    verificationCode: String!
+    token: String!
+    Appointments: [Appointment!]!
+    Doctors: [Doctor]!
+    Plan: Plans!
+}
+
+type Doctor {
+    _id: String!
+    fullName: String!
+    email: String!
+    phone: String!
+    rating: Float!
+    Appointments: [Appointment!]!
+    # Comments: [Comment!]!
+}
+
+type Appointment {
+    _id: String!
+    time: String!
+    User: User!
+    Doctor: Doctor!
+}
+
+type Pharmacy {
+    _id: String!
+    name: String!
+    geos: String!
+    Products: [Product!]!
+}
+
+type Product {
+    _id: String!
+    name: String!
+    price: Float!
+    type: MedicineType!
+    Categories: [Category!]!
+    Pharmacies: [Pharmacy!]!
+}
+
+type Category {
+    _id: String!
+    name: String!
+}
+
+# type Comment {
+#     _id: String!
+#     title: String!
+#     body: String!
+#     User: User!
+#     Doctor: Doctor!
+# }
+
+enum Roles {
+    ROLE_USER
+    ROLE_DOCTOR
+}
+
+enum Plans {
+    PLAN_FREE
+    PLAN_FAMILY_INSURANCE
+    PLAN_LIFE_INSURANCE
+}
+
+enum MedicineType {
+    MEDICINE_TYPE_LIQUID
+    MEDICINE_TYPE_TABLET
+    MEDICINE_TYPE_CAPSULES
+    MEDICINE_TYPE_INHALERS
+    MEDICINE_TYPE_INJECTIONS
+}
+`;
+
+export default typeDefs;
