@@ -14,6 +14,15 @@ type Query {
     categories: [Category!]!
 }
 
+type Mutation {
+    signup(record: UserSignUpInput!): User!
+    login(record: UserLoginInput!): LoginResponse!
+}
+
+type LoginResponse {
+    token: String!
+}
+
 type User {
     _id: String!
     fullName: String!
@@ -23,7 +32,6 @@ type User {
     role: Roles!
     verified: Boolean!
     verificationCode: String!
-    token: String!
     Appointments: [Appointment!]!
     Doctors: [Doctor]!
     Plan: Plans!
@@ -93,6 +101,20 @@ enum MedicineType {
     MEDICINE_TYPE_INHALERS
     MEDICINE_TYPE_INJECTIONS
 }
+
+input UserSignUpInput {
+    fullName: String!
+    email: String!
+    password: String!
+    age: Int!
+    phone: String!
+}
+
+input UserLoginInput {
+    email: String!
+    password: String!
+}
+
 `;
 
 export default typeDefs;
