@@ -1,7 +1,10 @@
 import bcrypt from 'bcryptjs';
 import { nanoid } from 'nanoid';
 import jwt from 'jsonwebtoken';
+import 'dotenv/config';
+
 import { User } from '@models/User';
+
 import HttpError from './helpers/HttpError';
 
 const { JWT_SECRET } = process.env;
@@ -50,9 +53,9 @@ const resolvers = {
         throw HttpError(401, 'Email or password is wrong');
       }
 
-      // if (!user.verified) {
-      //   throw HttpError(403, 'Verify your email');
-      // }
+      if (!user.verified) {
+        throw HttpError(403, 'Verify your email');
+      }
 
       const comparedPassword = await bcrypt.compare(password, user.password);
 
@@ -65,6 +68,11 @@ const resolvers = {
       await User.findByIdAndUpdate(user._id, { token });
 
       return { token };
+    },
+    logout: async (parent, args, ctx, info) => {
+      console.log(ctx.user);
+
+      return 'Logout complete';
     },
   },
 };

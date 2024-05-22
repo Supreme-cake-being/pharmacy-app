@@ -17,6 +17,7 @@ type Query {
 type Mutation {
     signup(record: UserSignUpInput!): User!
     login(record: UserLoginInput!): LoginResponse!
+    logout: String!
 }
 
 type LoginResponse {

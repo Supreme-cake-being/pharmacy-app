@@ -4,7 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import resolvers from './resolvers';
 import typeDefs from './schema';
-import 'dotenv/config';
+import { context } from './context';
 
 const app = express();
 
@@ -17,6 +17,6 @@ const server = new ApolloServer({
 });
 await server.start();
 
-app.use(expressMiddleware(server));
+app.use(expressMiddleware(server, { context }));
 
 export default app;
