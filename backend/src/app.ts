@@ -6,6 +6,8 @@ import resolvers from './resolvers';
 import typeDefs from './schema';
 import { context } from './context';
 
+import authRouter from '@routes/auth';
+
 const app = express();
 
 app.use(cors<cors.CorsRequest>());
@@ -18,5 +20,7 @@ const server = new ApolloServer({
 await server.start();
 
 app.use(expressMiddleware(server, { context }));
+
+app.use('/api/users', authRouter);
 
 export default app;
