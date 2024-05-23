@@ -1,28 +1,23 @@
 import jwt from 'jsonwebtoken';
-import HttpError from './helpers/HttpError.js';
-import { User } from './models/User.js';
+import { HttpError } from '@helpers/index';
+import { User } from '@models/User';
 
 const { JWT_SECRET } = process.env;
 
-const getUser = async (id: string) => {
-  const user = await User.findById(id);
-  return user;
-};
-
 export const context = async ({ req }) => {
-  const { authorization = '' } = req.headers;
-  const [bearer, token] = authorization.split(' ');
+  const { authorization } = req.headers;
 
-  if (bearer !== 'Bearer') {
-    throw HttpError(401, 'Not authorizaed');
+  if (!authorization) {
+    return {};
   }
+
+  const [_, token] = authorization.split(' ');
 
   try {
-    const id = jwt.verify(token, JWT_SECRET);
-    return await getUser(id);
-  } catch {
-    throw HttpError(401, 'Invalid token');
+    const { id } = jwt.verify(token, JWT_SECRET);
+    const user = await User.findById(id);
+    return { user };
+  } catch (error) {
+    HttpError(401, 'Not authorized');
   }
-
-  //   return { user };
 };

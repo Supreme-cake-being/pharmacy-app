@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import Joi from 'joi';
-import { plans } from '@constants/plans.js';
-import { roles } from '@constants/roles.js';
+import { plans } from '@constants/plans';
+import { roles } from '@constants/roles';
 
 const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const passwordRegex = /^(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,64}$/;

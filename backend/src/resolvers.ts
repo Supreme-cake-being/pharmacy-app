@@ -5,7 +5,7 @@ import 'dotenv/config';
 
 import { User } from '@models/User';
 
-import HttpError from './helpers/HttpError';
+import { HttpError, isAuthenticated } from '@helpers/index';
 
 const { JWT_SECRET } = process.env;
 
@@ -21,7 +21,7 @@ const resolvers = {
   },
 
   Mutation: {
-    signup: async (parent, { record }, ctx, info) => {
+    signup: async (parent, { record }) => {
       const { email, password, phone } = record;
 
       const userByEmail = await User.findOne({ email });
@@ -45,7 +45,7 @@ const resolvers = {
 
       return newUser;
     },
-    login: async (parent, { record }, ctx, info) => {
+    login: async (parent, { record }) => {
       const { email, password } = record;
 
       const user = await User.findOne({ email });
@@ -69,8 +69,8 @@ const resolvers = {
 
       return { token };
     },
-    logout: async (parent, args, ctx, info) => {
-      console.log(ctx.user);
+    logout: async (parent, args, { user }, info) => {
+      isAuthenticated(user);
 
       return 'Logout complete';
     },

@@ -9,11 +9,12 @@ const messageList = {
   409: 'Conflict',
 };
 
-const HttpError = (code: number, message: string = messageList[code]) => {
+export const HttpError = (
+  code: number,
+  message: string = messageList[code]
+) => {
   const error = new GraphQLError(message, {
     extensions: { code: code },
   });
   return error;
 };
-
-export default HttpError;

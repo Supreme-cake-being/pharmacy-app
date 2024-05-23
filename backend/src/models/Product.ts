@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { Schema, model } from 'mongoose';
-import { medicineTypes } from '../constants/medicineTypes';
+import { medicineTypes } from '@constants/medicineTypes';
 
 const productSchema = new Schema(
   {
