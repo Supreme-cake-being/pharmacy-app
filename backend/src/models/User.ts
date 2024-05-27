@@ -1,10 +1,11 @@
 import { Schema, model } from 'mongoose';
 import Joi from 'joi';
-import { roles } from '../constants/roles.js';
-import { plans } from '../constants/plans.js';
+import { plans } from '@constants/plans';
+import { roles } from '@constants/roles';
 
 const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const passwordRegex = /^(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,64}$/;
+const phoneRegex = /^\d{0,15}$/;
 
 const userSchema = new Schema(
   {
@@ -38,7 +39,7 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    verificationToken: {
+    verificationCode: {
       type: String,
       default: '',
     },
@@ -57,10 +58,17 @@ const userSchema = new Schema(
         required: true,
       },
     ],
+    Cart: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'product',
+        required: true,
+      },
+    ],
     Plan: {
       type: String,
       enum: plans,
-      default: 'ROLE_USER',
+      default: 'PLAN_FREE',
     },
   },
   {
@@ -71,9 +79,16 @@ const userSchema = new Schema(
 
 const User = model('user', userSchema);
 
-const userAuthSchema = Joi.object({
+const userSignUpSchema = Joi.object({
+  email: Joi.string().pattern(emailRegex).required(),
+  password: Joi.string().pattern(passwordRegex).required(),
+  phone: Joi.string().pattern(phoneRegex).required(),
+  age: Joi.number().required(),
+});
+
+const userLoginSchema = Joi.object({
   email: Joi.string().pattern(emailRegex).required(),
   password: Joi.string().pattern(passwordRegex).required(),
 });
 
-export { User, userAuthSchema };
+export { User, userSignUpSchema, userLoginSchema };

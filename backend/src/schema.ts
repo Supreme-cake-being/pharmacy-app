@@ -1,17 +1,27 @@
 const typeDefs = `#graphql
 type Query {
-    user: User!
-    users: [User!]!
-    doctors(userId: String): [Doctor!]!
+    me: User!
+    users: [User!]! 
+    doctors: [Doctor!]!
+    userDoctors: [Doctor!]!
     doctorById(doctorId: String!): Doctor!
-    appointments(userId: String!): [Appointment!]!
+    appointments(doctorId: String): [Appointment!]!
     appointmentById(appointmentId: String!): Appointment!
     pharmacies: [Pharmacy!]!
     pharmacyById(pharmacyId: String!): Pharmacy!
     products(pharmacyId: String, categoryId: String): [Product!]!
     productById(productId: String!): Product!
-    productsInCart(userId: String!): [Product!]!
     categories: [Category!]!
+}
+
+type Mutation {
+    signup(record: UserSignUpInput!): User!
+    login(record: UserLoginInput!): LoginResponse!
+    logout: String!
+}
+
+type LoginResponse {
+    token: String!
 }
 
 type User {
@@ -23,7 +33,6 @@ type User {
     role: Roles!
     verified: Boolean!
     verificationCode: String!
-    token: String!
     Appointments: [Appointment!]!
     Doctors: [Doctor]!
     Plan: Plans!
@@ -93,6 +102,20 @@ enum MedicineType {
     MEDICINE_TYPE_INHALERS
     MEDICINE_TYPE_INJECTIONS
 }
+
+input UserSignUpInput {
+    fullName: String!
+    email: String!
+    password: String!
+    age: Int!
+    phone: String!
+}
+
+input UserLoginInput {
+    email: String!
+    password: String!
+}
+
 `;
 
 export default typeDefs;
