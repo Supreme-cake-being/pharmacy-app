@@ -2,15 +2,15 @@ const typeDefs = `#graphql
 type Query {
     me: User!
     users: [User!]! 
-    doctors(userId: String): [Doctor!]!
+    doctors: [Doctor!]!
+    userDoctors: [Doctor!]!
     doctorById(doctorId: String!): Doctor!
-    appointments(userId: String!): [Appointment!]!
+    appointments(doctorId: String): [Appointment!]!
     appointmentById(appointmentId: String!): Appointment!
     pharmacies: [Pharmacy!]!
     pharmacyById(pharmacyId: String!): Pharmacy!
     products(pharmacyId: String, categoryId: String): [Product!]!
     productById(productId: String!): Product!
-    productsInCart(userId: String!): [Product!]!
     categories: [Category!]!
 }
 

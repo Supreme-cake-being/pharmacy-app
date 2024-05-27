@@ -5,17 +5,91 @@ import 'dotenv/config';
 
 import { User } from '@models/User';
 
-import { HttpError, isAuthenticated } from '@helpers/index';
+import { HttpError, isAuthenticated, isValidId } from '@helpers';
+import { Doctor } from '@models/Doctor';
+import { Appointment } from '@models/Appointment';
+import { Pharmacy } from '@models/Pharmacy';
+import { Product } from '@models/Product';
+import { Category } from '@models/Category';
 
 const { JWT_SECRET } = process.env;
 
 const resolvers = {
   Query: {
-    me: async (parent, args, ctx, info) => {
-      return { _id: '1', fullName: '1', email: '1' };
+    me: async (parent, args, { user }, info) => {
+      isAuthenticated(user);
+      return { user };
     },
-    users: async (parent, args, ctx, info) => {
+    users: async (parent, args, { user }, info) => {
+      isAuthenticated(user);
       const result = await User.find();
+      return result;
+    },
+    doctors: async () => {
+      const result = await Doctor.find();
+      return result;
+    },
+    doctorById: async (parent, { doctorId }, { user }, info) => {
+      isAuthenticated(user);
+      isValidId({ name: 'doctorId', value: doctorId });
+
+      const result = await Doctor.findById({ id: doctorId });
+      return result;
+    },
+    userDoctors: async (parent, args, { user }, info) => {
+      isAuthenticated(user);
+      const result = await Doctor.find({ User: user });
+      return result;
+    },
+    appointments: async (parent, { doctorId }, { user }, info) => {
+      isAuthenticated(user);
+
+      if (doctorId) {
+        isValidId({ name: 'doctorId', value: doctorId });
+
+        const doctorById = await Doctor.findById({ id: doctorId });
+        if (!doctorById) {
+          throw HttpError(404, 'Doctor not found');
+        }
+
+        const result = await Appointment.find({ Doctor: doctorById });
+        return result;
+      }
+
+      const result = await Appointment.find({ User: user });
+      return result;
+    },
+    appointmentById: async (parent, { appointmentId }, { user }, info) => {
+      isAuthenticated(user);
+      isValidId({ name: 'appointmentId', value: appointmentId });
+
+      const result = await Appointment.findById({ id: appointmentId });
+      return result;
+    },
+    pharmacies: async () => {
+      const result = await Pharmacy.find();
+      return result;
+    },
+    pharmacyById: async (parent, { pharmacyId }, { user }, info) => {
+      isAuthenticated(user);
+      isValidId({ name: 'pharmacyId', value: pharmacyId });
+
+      const result = await Pharmacy.findById({ id: pharmacyId });
+      return result;
+    },
+    products: async (parent, { pharmacyId }, { users }, info) => {
+      const result = await Product.find();
+      return result;
+    },
+    productById: async (parent, { productId }, { user }, info) => {
+      isAuthenticated(user);
+      isValidId({ name: 'productId', value: productId });
+
+      const result = await Product.findById({ id: productId });
+      return result;
+    },
+    categories: async () => {
+      const result = await Category.find();
       return result;
     },
   },

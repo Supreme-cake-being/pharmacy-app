@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { HttpError } from '@helpers/index';
+import { HttpError } from '@helpers';
 import { User } from '@models/User';
 
 const { JWT_SECRET } = process.env;
@@ -18,6 +18,6 @@ export const context = async ({ req }) => {
     const user = await User.findById(id);
     return { user };
   } catch (error) {
-    HttpError(401, 'Not authorized');
+    throw HttpError(401, 'Not authorized');
   }
 };

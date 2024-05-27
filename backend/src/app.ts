@@ -2,8 +2,8 @@ import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import express from 'express';
 import cors from 'cors';
-import resolvers from './resolvers';
 import typeDefs from './schema';
+import resolvers from './resolvers';
 import { context } from './context';
 
 import authRouter from '@routes/auth';
