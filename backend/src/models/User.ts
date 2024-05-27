@@ -58,6 +58,13 @@ const userSchema = new Schema(
         required: true,
       },
     ],
+    Cart: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'product',
+        required: true,
+      },
+    ],
     Plan: {
       type: String,
       enum: plans,
