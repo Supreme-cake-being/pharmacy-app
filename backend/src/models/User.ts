@@ -2,10 +2,7 @@ import { Schema, model } from 'mongoose';
 import Joi from 'joi';
 import { plans } from '@constants/plans';
 import { roles } from '@constants/roles';
-
-const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-const passwordRegex = /^(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,64}$/;
-const phoneRegex = /^\d{0,15}$/;
+import { emailRegex, phoneRegex, passwordRegex } from '@constants/regex';
 
 const userSchema = new Schema(
   {
@@ -29,6 +26,7 @@ const userSchema = new Schema(
     phone: {
       type: String,
       required: [true, 'Phone number is required'],
+      unique: true,
     },
     role: {
       type: String,

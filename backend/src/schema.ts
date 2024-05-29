@@ -3,7 +3,6 @@ type Query {
     me: User!
     users: [User!]! 
     doctors: [Doctor!]!
-    userDoctors: [Doctor!]!
     doctorById(doctorId: String!): Doctor!
     appointments(doctorId: String): [Appointment!]!
     appointmentById(appointmentId: String!): Appointment!
@@ -18,6 +17,9 @@ type Mutation {
     signup(record: UserSignUpInput!): User!
     login(record: UserLoginInput!): LoginResponse!
     logout: String!
+    doctorCreate(record: DoctorCreateInput!): Doctor!
+    doctorUpdate(record: DoctorUpdateInput!): Doctor!
+    doctorDelete(id: String!): Boolean!
 }
 
 type LoginResponse {
@@ -44,6 +46,7 @@ type Doctor {
     email: String!
     phone: String!
     rating: Float!
+    Users: [User!]!
     Appointments: [Appointment!]!
     # Comments: [Comment!]!
 }
@@ -116,6 +119,19 @@ input UserLoginInput {
     password: String!
 }
 
+input DoctorCreateInput {
+    fullName: String!
+    email: String!
+    phone: String!
+}
+
+input DoctorUpdateInput {
+    id: String!
+    fullName: String
+    email: String
+    phone: String
+    rating: Int
+}
 `;
 
 export default typeDefs;

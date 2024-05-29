@@ -12,12 +12,13 @@
     "paths": {
       "@constants/*": ["src/constants/*"],
       "@models/*": ["src/models/*"],
-      "@helpers/*": ["src/helpers/*"],
       "@helpers": ["src/helpers"],
       "@controllers/*": ["src/controllers/*"],
       "@controllers": ["src/controllers"],
       "@routes/*": ["src/routes/api/*"],
-      "@routes": ["src/routes"]
+      "@routes": ["src/routes"],
+      "@resolvers/*": ["src/resolvers/*"],
+      "@resolvers": ["src/resolvers"]
     }
   }
 }
