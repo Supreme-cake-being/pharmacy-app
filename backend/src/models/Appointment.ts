@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import Joi from 'joi';
+import { handleSaveError, runValidatorsAtUpdate } from './hooks';
 
 const appointmentSchema = new Schema(
   {
@@ -24,15 +25,21 @@ const appointmentSchema = new Schema(
   }
 );
 
+appointmentSchema.post('save', handleSaveError);
+
+appointmentSchema.pre('findOneAndUpdate', runValidatorsAtUpdate);
+
+appointmentSchema.post('findOneAndUpdate', handleSaveError);
+
 const Appointment = model('appointment', appointmentSchema);
 
-const appointmentAddSchema = Joi.object({
+const appointmentCreateSchema = Joi.object({
   time: Joi.date().required(),
-  Doctor: Joi.string().required(),
+  doctorId: Joi.string().required(),
 });
 
 const appointmentUpdateSchema = Joi.object({
   time: Joi.date().required(),
 });
 
-export { Appointment, appointmentAddSchema, appointmentUpdateSchema };
+export { Appointment, appointmentCreateSchema, appointmentUpdateSchema };

@@ -20,6 +20,9 @@ type Mutation {
     doctorCreate(record: DoctorCreateInput!): Doctor!
     doctorUpdate(record: DoctorUpdateInput!): Doctor!
     doctorDelete(id: String!): Boolean!
+    appointmentCreate(record: AppointmentCreateInput!): Appointment!
+    appointmentUpdate(record: AppointmentUpdateInput!): Appointment!
+    appointmentDelete(id: String!): Boolean!
 }
 
 type LoginResponse {
@@ -131,6 +134,15 @@ input DoctorUpdateInput {
     email: String
     phone: String
     rating: Int
+}
+
+input AppointmentCreateInput {
+    time: String!
+    doctorId: String!
+}
+
+input AppointmentUpdateInput {
+    time: String!
 }
 `;
 

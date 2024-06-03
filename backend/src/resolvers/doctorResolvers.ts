@@ -82,7 +82,6 @@ export const doctorMutation = {
     isValidId({ name: 'doctorId', value: id });
 
     const result = await Doctor.findOneAndDelete({ _id: id });
-    console.log(result);
     if (!result) {
       throw HttpError(404, 'Not found');
     }
