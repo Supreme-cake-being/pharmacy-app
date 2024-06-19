@@ -75,6 +75,10 @@ const userSchema = new Schema(
   }
 );
 
+userSchema.pre('findOne', function () {
+  this.populate(['Doctors', 'Appointments']);
+});
+
 const User = model('user', userSchema);
 
 const userSignUpSchema = Joi.object({

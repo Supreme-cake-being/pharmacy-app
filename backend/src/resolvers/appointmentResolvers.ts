@@ -5,6 +5,7 @@ import {
   appointmentUpdateSchema,
 } from '@models/Appointment';
 import { Doctor } from '@models/Doctor';
+import { User } from '@models/User';
 
 export const appointmentQuery = {
   appointments: async (parent, { doctorId }, { user }, info) => {
@@ -34,7 +35,7 @@ export const appointmentQuery = {
   },
 };
 
-export const appointmentResolvers = {
+export const appointmentMutation = {
   appointmentCreate: async (parent, { record }, { user }, info) => {
     const { time, doctorId } = record;
     isAuthenticated(user);
@@ -45,7 +46,7 @@ export const appointmentResolvers = {
       throw HttpError(400, error.message);
     }
 
-    const doctor = await Doctor.findById({ id: doctorId });
+    const doctor = await Doctor.findById(doctorId);
     if (!doctor) {
       throw HttpError(404, 'Doctor not found');
     }
@@ -66,29 +67,60 @@ export const appointmentResolvers = {
       throw HttpError(401, 'User already has an appointment on this time');
     }
 
-    const result = await Appointment.create({
+    const currentDate = new Date().getTime();
+    const sentDate = new Date(time).getTime();
+
+    if (sentDate <= currentDate) {
+      throw HttpError(401, 'Time cannot be in the past');
+    }
+
+    const { _id } = await Appointment.create({
       time,
       User: user,
       Doctor: doctor,
     });
+    const result = await Appointment.findById(_id);
+
+    await Doctor.findOneAndUpdate(
+      { _id: doctorId },
+      { $push: { Appointments: { ...result } } }
+    );
+
+    await User.findOneAndUpdate(
+      { _id: user._id },
+      { $push: { Appointments: { ...result } } }
+    );
+
+    if (user.Doctors.find(({ _id }) => _id === doctorId)) {
+      await User.findOneAndUpdate(
+        { _id: user._id },
+        { $push: { Doctors: { ...doctor } } }
+      );
+    }
+
     return result;
   },
   appointmentUpdate: async (parent, { record }, { user }, info) => {
-    const { time } = record;
+    const { id, time } = record;
     isAuthenticated(user);
+    isValidId({ name: 'id', value: id });
 
     const { error } = appointmentUpdateSchema.validate(record);
     if (error) {
       throw HttpError(400, error.message);
     }
 
-    const result = await Appointment.findOneAndUpdate({ User: user }, { time });
+    const result = await Appointment.findOneAndUpdate(
+      { _id: id, User: user },
+      { time }
+    ).populate(['User', 'Doctor']);
     return result;
   },
-  appointmentDelete: async (parent, { record }, { user }, info) => {
+  appointmentDelete: async (parent, { id }, { user }, info) => {
     isAuthenticated(user);
+    isValidId({ name: 'id', value: id });
 
-    const result = await Appointment.findOneAndDelete({ _id: user.id });
+    const result = await Appointment.findOneAndDelete({ _id: id });
     if (!result) {
       throw HttpError(404, 'Not found');
     }

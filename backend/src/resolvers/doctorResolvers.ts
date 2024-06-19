@@ -3,7 +3,7 @@ import { Doctor, doctorCreateSchema, doctorUpdateSchema } from '@models/Doctor';
 
 export const doctorQuery = {
   doctors: async () => {
-    const result = await Doctor.find();
+    const result = await Doctor.find().populate(['Users', 'Appointments']);
     return result;
   },
   doctorById: async (parent, { doctorId }, { user }, info) => {
@@ -14,6 +14,7 @@ export const doctorQuery = {
     return result;
   },
 };
+
 export const doctorMutation = {
   doctorCreate: async (parent, { record }, { user }, info) => {
     isAuthenticated(user);

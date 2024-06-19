@@ -31,6 +31,14 @@ appointmentSchema.pre('findOneAndUpdate', runValidatorsAtUpdate);
 
 appointmentSchema.post('findOneAndUpdate', handleSaveError);
 
+appointmentSchema.pre('find', function () {
+  this.populate(['User', 'Doctor']);
+});
+
+appointmentSchema.pre('findOne', function () {
+  this.populate(['User', 'Doctor']);
+});
+
 const Appointment = model('appointment', appointmentSchema);
 
 const appointmentCreateSchema = Joi.object({
@@ -39,6 +47,7 @@ const appointmentCreateSchema = Joi.object({
 });
 
 const appointmentUpdateSchema = Joi.object({
+  id: Joi.string().required(),
   time: Joi.date().required(),
 });
 

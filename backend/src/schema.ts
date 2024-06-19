@@ -142,6 +142,7 @@ input AppointmentCreateInput {
 }
 
 input AppointmentUpdateInput {
+    id: String!
     time: String!
 }
 `;
