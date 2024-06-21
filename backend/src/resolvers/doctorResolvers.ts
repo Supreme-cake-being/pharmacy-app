@@ -43,6 +43,9 @@ export const doctorMutation = {
   doctorUpdate: async (parent, { record }, { user }, info) => {
     isAuthenticated(user);
     const { id, fullName, email, phone, rating } = record;
+
+    isValidId({ name: 'id', value: id });
+
     const { error } = doctorUpdateSchema.validate({
       fullName,
       email,
@@ -76,6 +79,11 @@ export const doctorMutation = {
         rating,
       }
     );
+
+    if (!result) {
+      throw HttpError(404, 'Not found');
+    }
+
     return result;
   },
   doctorDelete: async (parent, { id }, { user }, info) => {
@@ -86,7 +94,6 @@ export const doctorMutation = {
     if (!result) {
       throw HttpError(404, 'Not found');
     }
-
     return true;
   },
 };

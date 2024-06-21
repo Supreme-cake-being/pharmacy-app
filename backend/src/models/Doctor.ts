@@ -58,6 +58,10 @@ doctorSchema.pre('findOne', function () {
   this.populate(['Users', 'Appointments']);
 });
 
+doctorSchema.pre('findOneAndUpdate', function () {
+  this.populate(['Users', 'Appointments']);
+});
+
 const Doctor = model('doctor', doctorSchema);
 
 const doctorCreateSchema = Joi.object({

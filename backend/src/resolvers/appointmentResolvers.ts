@@ -113,7 +113,12 @@ export const appointmentMutation = {
     const result = await Appointment.findOneAndUpdate(
       { _id: id, User: user },
       { time }
-    ).populate(['User', 'Doctor']);
+    );
+
+    if (!result) {
+      throw HttpError(404, 'Not found');
+    }
+
     return result;
   },
   appointmentDelete: async (parent, { id }, { user }, info) => {

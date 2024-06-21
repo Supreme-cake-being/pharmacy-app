@@ -3,8 +3,7 @@ import { userQuery } from './userResolvers';
 import { doctorMutation, doctorQuery } from './doctorResolvers';
 import { appointmentMutation, appointmentQuery } from './appointmentResolvers';
 import { pharmacyQuery } from './pharmacyResolvers';
-import { productQuery } from './productResolvers';
-import { categoryQuery } from './categoryResolvers';
+import { productMutation, productQuery } from './productResolvers';
 
 const resolvers = {
   Query: {
@@ -13,13 +12,13 @@ const resolvers = {
     ...appointmentQuery,
     ...pharmacyQuery,
     ...productQuery,
-    ...categoryQuery,
   },
 
   Mutation: {
     ...authMutation,
     ...doctorMutation,
     ...appointmentMutation,
+    ...productMutation,
   },
 };
 

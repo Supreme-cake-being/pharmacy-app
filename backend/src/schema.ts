@@ -23,6 +23,9 @@ type Mutation {
     appointmentCreate(record: AppointmentCreateInput!): Appointment!
     appointmentUpdate(record: AppointmentUpdateInput!): Appointment!
     appointmentDelete(id: String!): Boolean!
+    productCreate(record: ProductCreateInput!): Product!
+    productUpdate(record: ProductUpdateInput!): Product!
+    productDelete(id: String!): Boolean!
 }
 
 type LoginResponse {
@@ -73,13 +76,8 @@ type Product {
     name: String!
     price: Float!
     type: MedicineType!
-    Categories: [Category!]!
-    Pharmacies: [Pharmacy!]!
-}
-
-type Category {
-    _id: String!
-    name: String!
+    category: Category!
+    Pharmacy: Pharmacy!
 }
 
 # type Comment {
@@ -107,6 +105,11 @@ enum MedicineType {
     MEDICINE_TYPE_CAPSULES
     MEDICINE_TYPE_INHALERS
     MEDICINE_TYPE_INJECTIONS
+}
+
+enum Category {
+    WITH_PRESCRIPTION
+    WITHOUT_PRESCRIPTION
 }
 
 input UserSignUpInput {
@@ -144,6 +147,22 @@ input AppointmentCreateInput {
 input AppointmentUpdateInput {
     id: String!
     time: String!
+}
+
+input ProductCreateInput {
+    name: String!
+    price: Float!
+    type: MedicineType!
+    category: Category!
+    pharmacyId: String!
+}
+
+input ProductUpdateInput {
+    id: String!
+    name: String
+    price: Float
+    type: MedicineType
+    category: Category
 }
 `;
 
