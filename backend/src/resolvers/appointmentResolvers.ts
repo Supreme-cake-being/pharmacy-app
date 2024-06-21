@@ -30,7 +30,10 @@ export const appointmentQuery = {
     isAuthenticated(user);
     isValidId({ name: 'appointmentId', value: appointmentId });
 
-    const result = await Appointment.findById({ _id: appointmentId });
+    const result = await Appointment.findById(appointmentId);
+    if (!result) {
+      throw HttpError(404, 'Not found');
+    }
     return result;
   },
 };

@@ -50,10 +50,6 @@ doctorSchema.pre('findOneAndUpdate', runValidatorsAtUpdate);
 
 doctorSchema.post('findOneAndUpdate', handleSaveError);
 
-// doctorSchema.pre('find', function () {
-//   this.populate(['Users', 'Appointments']);
-// });
-
 doctorSchema.pre('findOne', function () {
   this.populate(['Users', 'Appointments']);
 });

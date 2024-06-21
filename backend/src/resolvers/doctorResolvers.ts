@@ -11,6 +11,9 @@ export const doctorQuery = {
     isValidId({ name: 'doctorId', value: doctorId });
 
     const result = await Doctor.findById(doctorId);
+    if (!result) {
+      throw HttpError(404, 'Not found');
+    }
     return result;
   },
 };

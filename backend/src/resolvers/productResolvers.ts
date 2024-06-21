@@ -15,7 +15,10 @@ export const productQuery = {
     isAuthenticated(user);
     isValidId({ name: 'productId', value: productId });
 
-    const result = await Product.findById({ id: productId });
+    const result = await Product.findById(productId);
+    if (!result) {
+      throw HttpError(404, 'Not found');
+    }
     return result;
   },
 };

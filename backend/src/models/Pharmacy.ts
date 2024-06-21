@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import { Schema, model } from 'mongoose';
+import { handleSaveError, runValidatorsAtUpdate } from './hooks';
 
 const pharmacySchema = new Schema(
   {
@@ -24,6 +25,20 @@ const pharmacySchema = new Schema(
     timestamps: false,
   }
 );
+
+pharmacySchema.post('save', handleSaveError);
+
+pharmacySchema.pre('findOneAndUpdate', runValidatorsAtUpdate);
+
+pharmacySchema.post('findOneAndUpdate', handleSaveError);
+
+pharmacySchema.pre('findOne', function () {
+  this.populate('Products');
+});
+
+pharmacySchema.pre('findOneAndUpdate', function () {
+  this.populate('Products');
+});
 
 const Pharmacy = model('pharmacy', pharmacySchema);
 
