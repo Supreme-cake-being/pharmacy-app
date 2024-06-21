@@ -26,6 +26,9 @@ type Mutation {
     productCreate(record: ProductCreateInput!): Product!
     productUpdate(record: ProductUpdateInput!): Product!
     productDelete(id: String!): Boolean!
+    pharmacyCreate(record: PharmacyCreateInput!): Pharmacy!
+    pharmacyUpdate(record: PharmacyUpdateInput!): Pharmacy!
+    pharmacyDelete(id: String!): Boolean!
 }
 
 type LoginResponse {
@@ -163,6 +166,17 @@ input ProductUpdateInput {
     price: Float
     type: MedicineType
     category: Category
+}
+
+input PharmacyCreateInput {
+    name: String!
+    geos: String!
+}
+
+input PharmacyUpdateInput {
+    id: String!
+    name: String
+    geos: String
 }
 `;
 

@@ -2,7 +2,7 @@ import { authMutation } from './authResolvers';
 import { userQuery } from './userResolvers';
 import { doctorMutation, doctorQuery } from './doctorResolvers';
 import { appointmentMutation, appointmentQuery } from './appointmentResolvers';
-import { pharmacyQuery } from './pharmacyResolvers';
+import { pharmacyMutation, pharmacyQuery } from './pharmacyResolvers';
 import { productMutation, productQuery } from './productResolvers';
 
 const resolvers = {
@@ -18,6 +18,7 @@ const resolvers = {
     ...authMutation,
     ...doctorMutation,
     ...appointmentMutation,
+    ...pharmacyMutation,
     ...productMutation,
   },
 };

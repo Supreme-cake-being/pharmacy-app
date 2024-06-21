@@ -42,23 +42,14 @@ pharmacySchema.pre('findOneAndUpdate', function () {
 
 const Pharmacy = model('pharmacy', pharmacySchema);
 
-const pharmacyAddSchema = Joi.object({
+const pharmacyCreateSchema = Joi.object({
   name: Joi.string().required(),
   geos: Joi.string().required(),
 });
 
 const pharmacyUpdateSchema = Joi.object({
-  name: Joi.string().required(),
-  geos: Joi.string().required(),
+  name: Joi.string(),
+  geos: Joi.string(),
 });
 
-const pharmacyAddProductSchema = Joi.object({
-  Product: Joi.string().required(),
-});
-
-export {
-  Pharmacy,
-  pharmacyAddSchema,
-  pharmacyUpdateSchema,
-  pharmacyAddProductSchema,
-};
+export { Pharmacy, pharmacyCreateSchema, pharmacyUpdateSchema };
