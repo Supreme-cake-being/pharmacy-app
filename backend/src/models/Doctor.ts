@@ -1,4 +1,7 @@
 import { Schema, model } from 'mongoose';
+import Joi from 'joi';
+import { emailRegex, phoneRegex } from '@constants/regex';
+import { handleSaveError, runValidatorsAtUpdate } from './hooks';
 
 const doctorSchema = new Schema(
   {
@@ -14,11 +17,19 @@ const doctorSchema = new Schema(
     phone: {
       type: String,
       required: [true, 'Phone is required'],
+      unique: true,
     },
     rating: {
       type: Number,
       default: 0,
     },
+    Users: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        required: true,
+      },
+    ],
     Appointments: [
       {
         type: Schema.Types.ObjectId,
@@ -33,6 +44,33 @@ const doctorSchema = new Schema(
   }
 );
 
+doctorSchema.post('save', handleSaveError);
+
+doctorSchema.pre('findOneAndUpdate', runValidatorsAtUpdate);
+
+doctorSchema.post('findOneAndUpdate', handleSaveError);
+
+doctorSchema.pre('findOne', function () {
+  this.populate(['Users', 'Appointments']);
+});
+
+doctorSchema.pre('findOneAndUpdate', function () {
+  this.populate(['Users', 'Appointments']);
+});
+
 const Doctor = model('doctor', doctorSchema);
 
-export { Doctor };
+const doctorCreateSchema = Joi.object({
+  fullName: Joi.string().required(),
+  email: Joi.string().pattern(emailRegex).required(),
+  phone: Joi.string().pattern(phoneRegex).required(),
+});
+
+const doctorUpdateSchema = Joi.object({
+  fullName: Joi.string(),
+  email: Joi.string().pattern(emailRegex),
+  phone: Joi.string().pattern(phoneRegex),
+  rating: Joi.number().min(0).max(5),
+});
+
+export { Doctor, doctorCreateSchema, doctorUpdateSchema };

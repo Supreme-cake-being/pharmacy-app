@@ -3,7 +3,6 @@ type Query {
     me: User!
     users: [User!]! 
     doctors: [Doctor!]!
-    userDoctors: [Doctor!]!
     doctorById(doctorId: String!): Doctor!
     appointments(doctorId: String): [Appointment!]!
     appointmentById(appointmentId: String!): Appointment!
@@ -18,6 +17,18 @@ type Mutation {
     signup(record: UserSignUpInput!): User!
     login(record: UserLoginInput!): LoginResponse!
     logout: String!
+    doctorCreate(record: DoctorCreateInput!): Doctor!
+    doctorUpdate(record: DoctorUpdateInput!): Doctor!
+    doctorDelete(id: String!): Boolean!
+    appointmentCreate(record: AppointmentCreateInput!): Appointment!
+    appointmentUpdate(record: AppointmentUpdateInput!): Appointment!
+    appointmentDelete(id: String!): Boolean!
+    productCreate(record: ProductCreateInput!): Product!
+    productUpdate(record: ProductUpdateInput!): Product!
+    productDelete(id: String!): Boolean!
+    pharmacyCreate(record: PharmacyCreateInput!): Pharmacy!
+    pharmacyUpdate(record: PharmacyUpdateInput!): Pharmacy!
+    pharmacyDelete(id: String!): Boolean!
 }
 
 type LoginResponse {
@@ -44,6 +55,7 @@ type Doctor {
     email: String!
     phone: String!
     rating: Float!
+    Users: [User!]!
     Appointments: [Appointment!]!
     # Comments: [Comment!]!
 }
@@ -67,13 +79,8 @@ type Product {
     name: String!
     price: Float!
     type: MedicineType!
-    Categories: [Category!]!
-    Pharmacies: [Pharmacy!]!
-}
-
-type Category {
-    _id: String!
-    name: String!
+    category: Category!
+    Pharmacy: Pharmacy!
 }
 
 # type Comment {
@@ -103,6 +110,11 @@ enum MedicineType {
     MEDICINE_TYPE_INJECTIONS
 }
 
+enum Category {
+    WITH_PRESCRIPTION
+    WITHOUT_PRESCRIPTION
+}
+
 input UserSignUpInput {
     fullName: String!
     email: String!
@@ -116,6 +128,56 @@ input UserLoginInput {
     password: String!
 }
 
+input DoctorCreateInput {
+    fullName: String!
+    email: String!
+    phone: String!
+}
+
+input DoctorUpdateInput {
+    id: String!
+    fullName: String
+    email: String
+    phone: String
+    rating: Int
+}
+
+input AppointmentCreateInput {
+    time: String!
+    doctorId: String!
+}
+
+input AppointmentUpdateInput {
+    id: String!
+    time: String!
+}
+
+input ProductCreateInput {
+    name: String!
+    price: Float!
+    type: MedicineType!
+    category: Category!
+    pharmacyId: String!
+}
+
+input ProductUpdateInput {
+    id: String!
+    name: String
+    price: Float
+    type: MedicineType
+    category: Category
+}
+
+input PharmacyCreateInput {
+    name: String!
+    geos: String!
+}
+
+input PharmacyUpdateInput {
+    id: String!
+    name: String
+    geos: String
+}
 `;
 
 export default typeDefs;
